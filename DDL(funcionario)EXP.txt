@@ -1,0 +1,59 @@
+Aula - 24/02/2025
+
+Comandos DDL - estrutura
+
+Create - cria
+
+Alter - altera
+
+Drop - apaga
+
+sintaxe: create table nome_tabela (nome_coluna1 tipo_dados(tamanho) [constraint nome_contraint tipo_constraint],
+    							   nome_colunaN tipo_dados(tamanho) [constraint nome_contraint tipo_constraint]);
+
+regras ou constraint - Chave primaria - primary key - PK
+		       Chave estrangeira - foreign key - fk
+		       Preenchimento obrigatorio - not null - nn
+		       Valores unicos - unique - uk
+		       Validacao de dados - check - ck
+
+Tipos de dados - alfanumericos - varchar ou varchar2
+		 numerico - number ou numeric
+		 caracter - char
+		 data - date
+
+Obs: fora o campo data todos possuem apos o tipo seu tamanho entre parenteses
+EX: varchar(30), char(10), number(4), number(10,2), date
+
+tabela sem regras:
+    
+					create teble funcionario (id_fun number(4),
+    								  nm_fun varchar(30),
+    								  dt_adm date,
+    								  salario numeric(10,2),
+    								  uf_fun char(2));
+
+Tabela com regras, nomeando constraints:
+    
+Create teble funcionario (id_fun number(4) constraint fun_id_pk primary key,
+    			  nm_fun varchar(30) constraint fun_nm_nn not null,
+    			  dt_adm date constraint fun_dt_nn not null,
+    			  salario numeric(10,2) constraint fun_sal_nn not null,
+    			  uf_fun char(2) constraint fun_uf_nn not null);
+
+Create table departamento (id_depto number(4) constraint dep_id_pk primary key,
+    			   nm_depto varchar(30) constraint dep_nm_nn not null
+    						constraint dep_nm_uk unique);
+
+Relacionamento 1-N:
+
+Create table depto_2B (id_depto number(4) constraint dep_id_pk1 primary key,
+    		       nm_depto varchar(30) constraint dep_nm_nn1 not null
+    				            constraint dep_nm_uk1 unique);
+
+Create table fun_2B (id_fun number(4) constraint fun_id_pk1 primary key,
+    	   	     nm_fun varchar(30) constraint fun_nm_nn1 not null,
+    		     dt_adm date constraint fun_dt_nn1 not null,
+    	    	     salario numeric(10,2) constraint fun_sal_nn1 not null,
+    		     uf_fun char(2) constraint fun_uf_nn1 not null,
+    		     fk_depto number(4) constraint fun_depto_fk1 references depto_2B);
